@@ -1,0 +1,446 @@
+---
+title: "Assignment_2RMD"
+author: "Swapnil Chaudhari (stdid: 10505342)"
+date: "18 December 2018"
+output: html_document
+
+---
+###Question 1: [10 Marks]
+(i) Load the MASS library, and access the dataset quine [1 mark]
+```{r}
+library(MASS)
+data(quine)
+str(quine)
+
+```
+
+(ii) A researcher is interested in seeing if the number of days in which students were absent differs between Aboriginal and non-Aboriginal students. In order to do this, she creates the plot below, showing two histograms on the same panel. Your task is to reproduce this plot. (You can be creative and make the histograms look different if you like - but the information it displays must obviously be the same.)[7 marks]
+```{r}
+#create panel of one row two col 
+par(mfrow = c(1, 2))
+
+# And  use histogram for aborignal:
+hist(quine$Days[quine$Eth=='A'],
+     xlab = "Number of Absent Days",
+     xlim = c(0,100),
+     ylim = c(0,50),
+     ylab="Number of Aborignal Students",
+     labels = TRUE,
+     main = "",
+     
+     col = "green")
+axis(side = 2, at = seq(0, 50, by = 2), labels = F)
+# create second histo gramfor non-aboriginal
+hist(quine$Days[quine$Eth=='N'],
+     xlab = "Number of Absent Days",
+     main="",
+     labels = TRUE,
+     ylab="Number of Non-Aborignal Students",
+     xlim = c(0,100),
+     ylim = c(0,50),
+     col = "blue")
+axis(side = 2, at = seq(0, 50, by = 2), labels = F)
+
+mtext("Days Absent by Ethnicity :
+      Aboriginal (greeen) and Non-Aboriginal (blue)", side = 3, line = -3, font = 2, outer = T , padj = 0 )
+
+#tally results by code
+# data=quine[ which (quine$Eth=='A'& quine$Days<=10),]
+# nrow(data)
+
+```
+
+(iii) Comment on whether you think there is any evidence of a difference between the two groups. [2 marks]
+
+Comparing both the graphs,  absent students for 0 to 10 days are  23 in case of aborignal students and exactly double (46) 
+in case of non-aborignal students. For number of absent days (>10-20,20-30,30-40 so on ) , the difference of both the type of 
+absent students are almost equal.In a nut-shell non-aborignal students tend to remian more absentthan aborignal goup
+
+###Question 2: [10 marks]
+i) Load the MASS library, and access the dataset crabs. Look at its structure (you may also need to load the help file to read about the dataset) [1 marks]
+
+```{r}
+library("MASS")
+data(crabs)
+
+```
+
+
+(ii) A marine biologist is interested in seeing what relationship the categorical variables of sex and species have with the numerical variable measuring the rear width of the crabs. He produces the plot below. Your task is to reproduce this plot. (You can be creative and make the graph look different if you like - but the information it displays must obviously be the same.) [7 marks]
+
+```{r}
+par(mfrow = c(1,2))
+
+# create box plot for sex group vs. rear width
+boxplot(crabs$RW ~ crabs$sex,
+        xlab = "Sex",
+        col = c("green","red"),
+        names= c("Female","Male"),
+        main = "",
+        
+        )
+axis(side = 2, at = seq(0, 20, by = 0.5), labels = F)
+
+# create box plot for species vs. rear width
+boxplot(crabs$RW ~ crabs$sp,
+        xlab = "Sex",
+        col = c("blue", "Orange"),
+        names = c("Blue", "Orange"),
+        main = "",
+        )
+axis(side = 2, at = seq(0, 20, by = 0.5), labels = F)
+mtext("Crabs Rear Width By Sex(Left) and Specis(Right)",side = 3, line = -3, font = 2, outer = T , padj = 0 )
+
+```
+
+(iii) Comment on the resulting plots - what can the marine biologist say about the rear width of the crabs? [2 marks]
+
+Marine biologist can conclude that female crabs have wider and more varying rear width as compare to their male crabs. Similarly, orange species have more wider and varying rear than that of blue species. Overall,they can conclude that majority of orange female species have the widest and the most varying rear.
+
+
+###Question 3: [10 marks]
+(i) Set x to be 2, y to be 3 and z to be 4. Write a while() loop which prints x + y + z  and then doubles both x and y and adds 1 to z. The loop should stop only when x is greater than 50, or y is greater than 70, or z is greater than 10. What is the final value printed to the console? [3 marks]
+```{r}
+
+x<-2
+y<-3
+z<-4
+
+while( x<50 | y<70 | z<10)
+{
+  x<- 2 * x
+  y<- 2 * y
+  z<- z +1
+  print(x+y+z)  
+}
+
+```
+
+The final value printed on the console is 330.
+
+(ii) Create a matrix of size 10 x 6. Write a double for() loop which fills this matrix with values equal to the sin of the row index times the cosine of the column index. e.g., the [1, 1] entry should be sin(1)xcos(1), the [3, 4] entry should be sin(3)xcos(4) etc. Print the matrix. [4 marks]
+
+```{r}
+
+m <- matrix(nrow = 10, ncol =  6)
+for(i in 1:10)
+{
+  for(j in 1:6)
+  {
+    m[i,j]<- sin(i) * cos(j)
+  }
+}
+print(m)
+
+```
+
+
+(iii) Set i to be 2. Write a repeat() loop which trebles i until i is greater than 200. What value is i now? [3 marks]
+
+```{r}
+i<- 2
+repeat
+{
+  ifelse(i>200, break, i<- i*3  ) 
+  
+  
+}
+print(i)
+
+```
+Value of i is now 486.
+
+###Question 4: [30 Marks]
+Download the file imdb.txt which contains the html webpage output of the IMDB top 250 flms). Scan this in, and then answer the following questions:
+
+(i) In how many of the top 250 films does the actress Grace Kelly appear? [5 marks]
+
+```{r}
+
+imdb= scan("F:/DBS/R programming/imdb.txt" ,what = 'character',sep='\n')
+
+# grep() finds the specified pattern in x
+indexes =grep("Grace Kelly" ,imdb)
+count=length(indexes)
+
+paste("Actor Grace Kelly appears in ", count," films in top 250 imdb movies.")
+
+```
+
+(ii) What are the names of the films in which she appears? [5 marks]
+
+```{r}
+
+filmdetails =imdb[indexes]
+
+filmnameRegex="^title=.* >"
+
+#replacing title= ... to > part with null'
+films <- gsub( filmnameRegex,"",filmdetails)
+films <- gsub("</a> $",",",films)
+films
+cat("Actor Grace Kelly appears in ", count," times in top 250 imdb movies. her films are ",films )
+
+
+```
+
+
+(iii) In how many of the top 250 films does the director have B as the first initial of their first name? Are any of these directors included more than once in the list? (As always, you need to use code to answer all parts of this - not just read the answer from a table etc.)
+
+```{r}
+#getting lines starting with 'title=\"B' and contains '(dir.)' in between
+
+dataDirectorsB = imdb[grep('^title=\"B.*\\(dir\\.\\)',imdb)]
+dataDirectorsB
+
+paste("In total ",length(dataDirectorsB)," films the director have B as the first initial of their first name")
+
+
+```
+In total 10 films of top imdb 250 movies directors have first name starting with B.
+
+Are any of these directors included more than once in the list?
+```{r}
+#replacing 'title=\"' with null
+a= gsub('^title=\"',"",dataDirectorsB)
+a
+
+#replacing part (\\dir to end of string with null
+directornamesB=gsub('\\(dir\\..*</a> ',"",a)
+directornamesB
+
+#removing last space 
+directornamesB=gsub(" $","",directornamesB)
+directornamesB
+
+```
+
+displaying duplicate entries
+```{r}
+tDuplicateCounts= as.data.frame((table(directornamesB)))
+colnames(tDuplicateCounts) <- c("DirectorName","CountDuplicate")
+tDuplicateCounts
+
+cat(toString(unique(directornamesB))," appears ", toString(tDuplicateCounts$CountDuplicate)," times respectively.")
+
+
+```
+
+
+(iv) How many of the top 250 films have `A' as the first word in their title? [5 marks]
+
+getting lines only related to film which contains (dir.)
+
+```{r}
+filmnameRegex="^title=.*\\(dir\\..*</a>"
+films = imdb[grep(filmnameRegex ,imdb)]
+
+films <- gsub( "^title=.* >","",films)
+films <- gsub("</a> $",",",films)
+films <- films[grep("^A",films)]
+```
+
+
+films with first letter A in title:
+
+```{r}
+films
+cat("Total ",length(films)," films have starting letter of title is A. ")
+
+```
+
+
+
+
+(v) How many of the top 250 films have a score greater than 8 and less than 8.4? [5 marks]
+
+extracting lines (<strong title="8.4 based on 528,467 user ratings">8.4</strong> ) related each movie ratings and getting rating points.
+```{r}
+# <strong title="8.4 based on 528,467 user ratings">8.4</strong> 
+ratingsRegex= ' <strong title='
+ratings = imdb[grep(ratingsRegex,imdb)]
+ratings
+ratings= gsub('.*">',"",ratings)
+ratings=gsub("</strong> $","",ratings)
+```
+
+convert string to double
+```{r}
+#
+ratings = as.double(ratings)
+
+ratings
+```
+
+counting total films with ratings>8.0 & ratings<8.4
+```{r}
+count = sum(ratings>8.0 & ratings<8.4)
+```
+
+displaying result:
+```{r}
+cat(count ," of top 250 movies have ratings > 8.0 and <8.4 ")
+
+
+```
+
+
+
+(vi) User ratings are used to define the top 250 films. What is the average number of user ratings for the 250 films? [5 marks]
+
+```{r}
+
+mean(ratings)
+
+userratingRegex=".*based on "
+userratings = imdb[grep(ratingsRegex,imdb)]
+
+#replacing portion from beginning to just before user numbers with null
+userratings= gsub(userratingRegex,"",userratings)
+
+#replacing the string portion after numer of users
+userratings=gsub(" user ratings.*</strong> $","",userratings)
+
+#replacing , with ""
+userratings=gsub(",","",userratings)
+
+#converting string array to double
+users= as.double(userratings)
+
+mean(users)
+
+paste0("Average number of user rated  for each top 250 imdb films are ", round(mean(users),0))
+
+
+```
+
+
+###Question 5: [30 marks]
+(i) Read the dataset in and call it dublin. Assign to the dublin object the classes pop.data and data.frame (in that order). (The read.csv() function is the safest way to read in the data - the header and row.names arguments will help you to read it in correctly.) [3 marks]
+
+```{r}
+dublin = read.csv("F:/DBS/R programming/dublin.csv")
+
+class(dublin) <-   c("pop.data","data.frame")
+
+#attributes(dublin) # let's check
+
+summary(dublin)
+
+```
+
+(ii) Write an S3 summary method for an object of class pop.data which displays the following statistical summaries for the Male and the Female variables: minimum, max-  imum, and mean population count. The years corresponding to the minima and max-ima should also be printed for both variables. This summary should be neat and clear, and easy to read and understand. [10 marks]
+
+```{r}
+summary.pop.data <- function(data) {
+  
+  colnames(data) <- c("YEAR", "Total","Male","Female")
+   
+  cat(" Minimum number of males: ",min(data$Male),"  Year: ", data$YEAR[which.min(data$Male)]," \n")
+  
+  cat(" Maximum number of males: ",max(data$Male),"  Year: ", data$YEAR[which.max(data$Male)] ," \n")
+  
+  cat(" Minimum number of females: ",min(data$Female),"  Year: ", data$YEAR[which.min(data$Female)]," \n")
+  
+  cat(" max number of females: ",max(data$Female),"  Year: ", data$YEAR[which.max(data$Female)], " \n")
+  
+  cat(" mean:  male population: ", mean(data$Male)," female population: ", mean(data$Female))
+  
+  
+}
+
+```
+
+(iii) Test your summary method by running the code summary(dublin). [1 mark]
+```{r}
+
+summary(dublin)
+
+```
+
+(iv) Create an S3 plot method for the class pop.data that produces the following plot: [10 marks]
+
+-A line plot (a time series plot) containing two lines to show the population trend for males and females
+
+- By default, the plot will draw a red line for males and a blue line for females -
+the user must be able to change these colours if desired
+
+- The plot must include meaningful labels for the axis and legend
+
+- The plot should be neat and clear and be easy to interpret - pay attention to distances between the plot edge and the plotting panel on all sides, the orientation of numbers, the position of titles, the default width of lines on the plot etc.
+
+- The method should also include a generic title by default, but allow the user to include their own title as an argument if desired.
+
+- Your code should not `hard-code' numbers into it unnecessarily - e.g., if a longer or shorter dataset is supplied to it, it should be able to plot this without any errors
+
+```{r}
+
+plot.pop.data <- function(data, malecolor="red",femalecolor ="blue", title="Male and Female Population Growth Dublin" , legendpos="topleft")
+{
+  
+  colnames(data) <- c("YEAR", "Total","Male","Female")
+  
+  #finding minimum value for population
+  minPop <- min(c(min(data$Male),min(data$Female)))
+  #finding maximum value for population
+  maxPop <- max(c(max(data$Male),max(data$Female)))
+  
+  par(mar = c(6.5, 6.0, 2, 0.5), mgp = c(4, 1, 0))
+  #par(mar = c(5.0, 6.0, 3, 0.5), mgp = c(2, 1, 0))
+  #b l t r margine, mpg label tics
+  plot( data$YEAR, data$Male ,yaxt="n",xlab = "Year" , ylab ="Population",type = "l" , col=malecolor, las=1)
+ 
+  lines(data$YEAR,  data$Female, lty = 1, lwd=2, col=femalecolor) # lty specifies the line type
+  
+  lines(data$YEAR,  data$Male, lty = 3, lwd=2, col=malecolor) # lty specifies the line type
+  
+  title(main =title)
+  
+  #labeling y axis from minpop to maxpop , ten ticks
+  ypos= seq(minPop, maxPop+100000, by = (maxPop-minPop)/10)
+  axis(side = 2, 
+       at = ypos , 
+       labels=sprintf("%.2f lac", ypos/100000), 
+       las=1 )
+  
+  legend(legendpos, legend = c("Female Population", "Male Population"), lty = c(1, 3), col = c(femalecolor, malecolor))
+
+  
+}
+
+```
+
+(v) Test your plot method by running plot(dublin). Include a user-specified title relevant  to this dataset in your arguments. [1 mark]
+```{r}
+plot(dublin)
+
+```
+
+ask user for input:
+```{r}
+malecolor <- "green" #readline("Enter male line color: ") # Type in the console after this
+
+femalecolor <- "yellow" #readline("Enter female line color: ")
+
+title <- "Dublin Population" #readline("Title: ")
+
+plot(dublin, malecolor, femalecolor , title )
+
+
+```
+
+(vi) The file Mayo.csv contains similar information on population gures from 1841 to 2016 in the county of Mayo. Load the dataset, call it mayo, and assign it the two  classes pop.data and data.frame as before. Run summary(mayo) and plot(mayo)
+to test your two methods (including an appropriate title for the plot). Interpret the findings, commenting on any differences or similarites between the two summaries and two plots. [5 marks]
+
+```{r}
+mayo = read.csv("F:/DBS/R programming/Mayo.csv")
+colnames(mayo)<- c("YEAR","Total"  ,"Male" ,  "Female")
+class(mayo)<-  c("pop.data","data.frame")
+
+summary(mayo)
+plot(mayo, title = "Male and Female Population Growth Mayo",legendpos="topright")
+
+paste("FINDINGS: comparing both plots,  Plot for Dublin shows continuous gradual increase in population while Mayo shows 
+      gradual continuous decrease. Considering population by genders, female population dominates in both graph")
+
+```
