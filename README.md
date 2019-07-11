@@ -7,3 +7,5 @@ The assignment demonstrate R programming skills on visualization, working with t
 Dublin.csv, Mayo.csv and imdb.txt contains the relavent data.
 
 Assignment2RMD file contains the R programming code which was developed in R studio.
+The output and code is available on the following link.
+http://htmlpreview.github.io/?https://github.com/SwapnilChaudhari/RProgrammingAssignment/blob/master/assignment2RMD2.html
